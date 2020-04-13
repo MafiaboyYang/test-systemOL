@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjut.dao.UserDao">
+	<resultMap type="com.zjut.pojo.User" id="BaseResultMap">
+		<id property="id" jdbcType="INTEGER" column="id"/>
+		<result property="username" jdbcType="VARCHAR" column="username"/>
+		<result property="password" jdbcType="VARCHAR" column="password"/>
+		<result property="name" jdbcType="VARCHAR" column="name"/>
+		<result property="phone" jdbcType="VARCHAR" column="phone"/>
+		<result property="email" jdbcType="VARCHAR" column="email"/>
+		<result property="sex" jdbcType="VARCHAR" column="sex"/>
+		<result property="lockd" jdbcType="INTEGER" column="lockd"/>
+		<result property="identity" jdbcType="INTEGER" column="identity"/>
+		<result property="registerTime" jdbcType="VARCHAR" column="registerTime"/>
+		<result property="sessionId" jdbcType="VARCHAR" column="sessionId"/>
+		<result property="lastLogin" jdbcType="VARCHAR" column="lastLogin"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,username,password,name,phone,email,sex,lockd,identity,registerTime,sessionId,lastLogin
+	</sql>
+	<!-- 查看用户名是否重复 -->
+    <select id="findByUserName" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1
+        <if test="username != null and username!=''">
+        	and username = #{username}
+        </if>
+    </select>
+    <!-- 根据手机号查询用户 -->
+    <select id="findByPhone" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1 
+        <if test="phone != null and phone!=''">
+        	and phone = #{phone}
+        </if>
+    </select>
+    <!-- 根据电子邮箱查询用户 -->
+    <select id="findByEmail" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1 
+        <if test="email != null and email!=''">
+        	and email = #{email}
+        </if>
+    </select>
+    <!-- 新增用户 -->
+    <insert id="insert" parameterType="com.zjut.pojo.User">
+    	INSERT into user
+    	(username,password,name,phone,email,sex,lockd,identity,registerTime,sessionId,lastLogin)
+    	VALUE
+    	(#{username,jdbcType=VARCHAR},
+    	#{password,jdbcType=VARCHAR},
+    	#{name,jdbcType=VARCHAR},
+    	#{phone,jdbcType=VARCHAR},
+    	#{email,jdbcType=VARCHAR},
+    	#{sex,jdbcType=VARCHAR},
+    	#{lockd,jdbcType=INTEGER},
+    	#{identity,jdbcType=INTEGER},
+    	#{registerTime,jdbcType=VARCHAR},
+    	#{sessionId,jdbcType=VARCHAR},
+    	#{lastLogin,jdbcType=VARCHAR}
+    	)
+    </insert>
+</mapper>
