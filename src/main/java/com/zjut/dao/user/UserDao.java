@@ -1,4 +1,4 @@
-package com.zjut.dao;
+package com.zjut.dao.user;
 
 import org.springframework.stereotype.Repository;
 
@@ -28,4 +28,18 @@ public interface UserDao {
 	 * 新增用户
 	 * */
 	void insert(User user);
+	/**
+	 *@Description:根据用户名和密码读取用户信息
+	 *@param pd
+	 *@return User
+	 *@throws
+	 */
+	User getUserByNameAndPwd(PageData pd);
+	/**
+	 *@Description:修改用户的上次登录时间
+	 *@param pd
+	 *@return void
+	 *@throws
+	 */
+	void updateLastLogin(PageData pd);
 }

@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.zjut.dao.UserDao;
+import com.zjut.dao.user.UserDao;
 import com.zjut.pojo.User;
 import com.zjut.service.user.UserService;
 import com.zjut.utils.PageData;
@@ -42,5 +42,23 @@ public class UserServiceImpl implements UserService{
 	 * */
 	public void insert(User user) {
 		userDao.insert(user);
+	}
+	/**
+	 *@Description:根据用户名和密码查询用户
+	 *@param pd
+	 *@return User
+	 *@throws
+	 */
+	public User getUserByNameAndPwd(PageData pd) {
+		return userDao.getUserByNameAndPwd(pd);
+	}
+	/**
+	 *@Description:修改用户的上次登录时间
+	 *@param pd
+	 *@return void
+	 *@throws
+	 */
+	public void updateLastLogin(PageData pd) {
+		userDao.updateLastLogin(pd);
 	}
 }

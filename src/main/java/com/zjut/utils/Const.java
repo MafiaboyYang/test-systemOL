@@ -5,6 +5,9 @@ package com.zjut.utils;
 *类说明：用于存放常量
 */
 public class Const {
+	public static final String SESSION_SECURITY_CODE = "sessionSecCode";//验证码
+	public static final String SESSION_USER = "sessionUser";			//session中的用户
+	public static final String SESSION_USERNAME = "username";			//用户名
 	/**
 	 * APP Constants
 	 */

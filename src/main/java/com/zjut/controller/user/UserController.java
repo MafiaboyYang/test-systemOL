@@ -1,4 +1,4 @@
-package com.zjut.controller;
+package com.zjut.controller.user;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,7 +70,7 @@ public class UserController extends BaseController{
 		pd.put("sessionId", "0");	//会话编号
 		pd.put("lockd", "0");			//锁定（默认0未锁定）
 		pd.put("identity", "1");		//用户身份（默认1答题用户）
-		pd.put("registerTime", DateUtil.getTime());	//用户注册时间
+		pd.put("registerTime", DateUtil.getTime().toString());	//用户注册时间
 		pd.put("password", DigestUtils.md5DigestAsHex(pd.getString("password").getBytes()));	//密码加密
 		user.setUsername(pd.getString("username"));
 		user.setPassword(pd.getString("password"));

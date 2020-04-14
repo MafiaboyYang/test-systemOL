@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zjut.dao.UserDao">
+<mapper namespace="com.zjut.dao.user.UserDao">
 	<resultMap type="com.zjut.pojo.User" id="BaseResultMap">
 		<id property="id" jdbcType="INTEGER" column="id"/>
 		<result property="username" jdbcType="VARCHAR" column="username"/>
@@ -63,4 +63,26 @@
     	#{lastLogin,jdbcType=VARCHAR}
     	)
     </insert>
+    <!-- 根据用户名和密码查询用户 -->
+    <select id="getUserByNameAndPwd" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1 
+        <if test="username != null and username!=''">
+        	and username = #{username}
+        </if>
+        <if test="password != null and password!=''">
+        	and password = #{password}
+        </if>
+    </select>
+    <!-- 修改用户的上次登录时间 -->
+    <update id="updateLastLogin" parameterType="com.zjut.utils.PageData">
+    	UPDATE user
+    	SET
+    	<if test="lastLogin != null and lastLogin!=''">
+        	lastLogin = #{lastLogin}
+        </if>
+        WHERE
+        username = #{username}
+    </update>
 </mapper>
