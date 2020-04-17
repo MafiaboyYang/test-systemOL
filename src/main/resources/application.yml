@@ -23,7 +23,9 @@ spring:
     maxOpenPreparedStatements: 20
 
 server:
-  port: 8080
+  port: 8090
+  servlet:
+   context-path: /api 
   
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml  #指定*Mapper.xml的位置

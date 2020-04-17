@@ -18,6 +18,16 @@ public class BaseController {
 
 	private static final long serialVersionUID = 6357869213649815390L;
 	
+	/**
+	 *@Description:得到32位的uuid
+	 *@param
+	 *@return String
+	 *@throws
+	 */
+	public String get32UUID() {
+		return UuidUtil.get32UUID();
+	}
+	
 	/** new PageData对象
 	 * @return
 	 */
@@ -38,5 +48,16 @@ public class BaseController {
 	public HttpServletRequest getRequest() {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		return request;
+	}
+	
+	public static void logBefore(Logger logger, String interfaceName){
+		logger.info("");
+		logger.info("start");
+		logger.info(interfaceName);
+	}
+	
+	public static void logAfter(Logger logger){
+		logger.info("end");
+		logger.info("");
 	}
 }
