@@ -23,6 +23,7 @@ public class MvcInterceptorConfig extends WebMvcConfigurationSupport{
 		//多个拦截器组成一个拦截器链
 		//addPathPatterns用于添加拦截规则，/**表示拦截所有请求
 		//excludePathPatterns用户排除拦截
+		System.out.println("com.zjut.config.MvcInterceptorConfiguration.java：开始拦截");
 		registry.addInterceptor(loginHandlerInterceptor).addPathPatterns("/**");
 		super.addInterceptors(registry);
 	}

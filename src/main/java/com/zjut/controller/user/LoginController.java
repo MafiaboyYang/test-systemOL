@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -117,7 +118,7 @@ public class LoginController extends BaseController{
 	@RequestMapping(value="/login",produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Object login()throws Exception{
-		System.out.println("验证用户");
+		System.out.println("com.zjut.controller.user.LoginController.java：验证用户");
 		Map<String,String> outputData = new HashMap<String, String>();
 		Session session = Jurisdiction.getSession();
 		PageData pd = this.getPageData();
@@ -130,8 +131,13 @@ public class LoginController extends BaseController{
 		user = userService.getUserByNameAndPwd(pd);	//根据用户名和密码去读取用户信息
 		if(user != null && user.getLockd() == 0) {
 			pd.put("lastLogin", DateUtil.getTime().toString());
-			userService.updateLastLogin(pd);	//修改用户上次登录时间
-			session.setAttribute(Const.SESSION_USER, user);
+			String authorization = (String)session.getId();
+			pd.put("sessionId", authorization);
+			userService.updateLastLogin(pd);	//修改用户上次登录时间和sessionId
+			System.out.println("com.zjut.controller.user.LoginController.java：用户登录修改sessionId");
+			outputData.put("sessionId", authorization);	//将authorization传给前端，用于MySessionManager中请求的验证
+			user.setSessionId(authorization);	//修改用户的sessionId
+			session.setAttribute(Const.SESSION_USER, user);		//将用户存入session
 			session.removeAttribute(Const.SESSION_SECURITY_CODE);
 			//shiro加入身份验证
 			Subject subject = SecurityUtils.getSubject();
@@ -140,8 +146,6 @@ public class LoginController extends BaseController{
 			try {
 				//getAuthenticationInfo执行时机（身份验证）
 				subject.login(token);
-				String authorization = (String)session.getId();
-				outputData.put("sessionId", authorization);	//将authorization传给前端，用于MySessionManager中请求的验证
 			}catch(AuthenticationException e) {
 				errInfo = "身份验证失败!";
 			}
@@ -157,6 +161,22 @@ public class LoginController extends BaseController{
             session.setTimeout(-1000l);
 		}
 		outputData.put("errInfo",errInfo);
+		String data = JSON.toJSONString(outputData);	//转化为json形式
+        System.out.println("data" + data);
+        return data;
+	}
+	
+	/**
+	 *@Description:未登录
+	 *@param
+	 *@return Object
+	 *@throws
+	 */
+	@RequestMapping(value = "/unauth",produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object unauth()throws Exception{
+		Map<String,String> outputData = new HashMap<String, String>();
+		outputData.put("errInfo", "未登录");
 		String data = JSON.toJSONString(outputData);	//转化为json形式
         System.out.println("data" + data);
         return data;

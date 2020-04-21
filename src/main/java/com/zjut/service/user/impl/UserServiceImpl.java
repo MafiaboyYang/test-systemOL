@@ -53,12 +53,21 @@ public class UserServiceImpl implements UserService{
 		return userDao.getUserByNameAndPwd(pd);
 	}
 	/**
-	 *@Description:修改用户的上次登录时间
+	 *@Description:修改用户的上次登录时间和sessionId
 	 *@param pd
 	 *@return void
 	 *@throws
 	 */
 	public void updateLastLogin(PageData pd) {
 		userDao.updateLastLogin(pd);
+	}
+	/**
+	 *@Description:根据用户名获取sessionId
+	 *@param
+	 *@return String
+	 *@throws
+	 */
+	public String getSessionIdByUserName(String username) {
+		return userDao.getSessionIdByUserName(username);
 	}
 }

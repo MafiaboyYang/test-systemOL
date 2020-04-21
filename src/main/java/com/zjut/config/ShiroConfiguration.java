@@ -9,14 +9,18 @@ import org.crazycake.shiro.RedisSessionDAO;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.DispatcherType;
+
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.DelegatingFilterProxy;
 
 import com.zjut.utils.MySessionManager;
 import com.zjut.utils.ShiroRealm;
@@ -28,6 +32,56 @@ import com.zjut.utils.ShiroRealm;
 */
 @Configuration
 public class ShiroConfiguration {
+	
+	@Bean
+	public FilterRegistrationBean<DelegatingFilterProxy> filterRegistration() {
+		FilterRegistrationBean<DelegatingFilterProxy> filterRegistration = new FilterRegistrationBean<DelegatingFilterProxy>();
+		filterRegistration.setFilter(new DelegatingFilterProxy("shiroFilter"));
+		filterRegistration.setEnabled(true);
+		filterRegistration.addUrlPatterns("/*");
+		filterRegistration.setDispatcherTypes(DispatcherType.REQUEST);
+		return filterRegistration;
+	}
+	
+	/**
+	 *@Description:Filter工厂，设置对应的过滤条件和跳转条件
+	 *@param
+	 *@return ShiroFilterFactoryBean
+	 *@throws
+	 */
+	@Bean(name = "shiroFilter")
+	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+		shiroFilterFactoryBean.setSecurityManager(securityManager);
+		Map<String, String> map = new HashMap<String, String>();
+		//anon，配置不会被拦截的请求 顺序判断
+		map.put("/logout", "logout");
+		map.put("/login", "anon");
+		map.put("/register", "anon");
+		//authc，配置拦截的请求
+		map.put("/**", "authc");
+		//配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据
+		shiroFilterFactoryBean.setLoginUrl("/unauth");
+		shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+		return shiroFilterFactoryBean;
+	}
+	
+	/**
+	 *@Description:权限管理，配置主要是Realm的管理认证，这个类组合了登录，登出，权限，session的处理
+	 *@param
+	 *@return SecurityManager
+	 *@throws
+	 */
+	@Bean
+	public SecurityManager securityManager() {
+		System.out.println("com.zjut.config.ShiroConfiguration.java：开始注入");
+		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+		securityManager.setRealm(shiroRealm());
+		securityManager.setSessionManager(sessionManager());
+		//注入记住我管理器
+		securityManager.setRememberMeManager(rememberMeManager());
+		return securityManager;
+	}
 	
 	/**
 	 *@Description:将自己的验证方式加入容器
@@ -98,46 +152,6 @@ public class ShiroConfiguration {
 	      cookieRememberMeManager.setCookie(rememberMeCookie());
 	      cookieRememberMeManager.setCipherKey(Base64.decode("one"));
 	      return cookieRememberMeManager;
-	}
-	
-
-	/**
-	 *@Description:权限管理，配置主要是Realm的管理认证，这个类组合了登录，登出，权限，session的处理
-	 *@param
-	 *@return SecurityManager
-	 *@throws
-	 */
-	@Bean
-	public SecurityManager securityManager() {
-		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-		securityManager.setRealm(shiroRealm());
-		securityManager.setSessionManager(sessionManager());
-		//注入记住我管理器
-		securityManager.setRememberMeManager(rememberMeManager());
-		return securityManager;
-	}
-	
-	/**
-	 *@Description:Filter工厂，设置对应的过滤条件和跳转条件
-	 *@param
-	 *@return ShiroFilterFactoryBean
-	 *@throws
-	 */
-	@Bean
-	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
-		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-		shiroFilterFactoryBean.setSecurityManager(securityManager);
-		Map<String, String> map = new HashMap<String, String>();
-		//anon，配置不会被拦截的请求 顺序判断
-		map.put("/logout", "anon");
-		map.put("/login", "anon");
-		map.put("/register", "anon");
-		//authc，配置拦截的请求
-		map.put("/**", "authc");
-		//配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据
-		shiroFilterFactoryBean.setLoginUrl("/unauth");
-		shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
-		return shiroFilterFactoryBean;
 	}
 	
 	/**
