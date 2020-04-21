@@ -25,9 +25,9 @@ import com.zjut.service.user.UserService;
 */
 public class ShiroRealm extends AuthorizingRealm{
 	
-	@SuppressWarnings("SpringJavaAutowiringInspection")	//忽略警告
-	@Resource
-	private UserService userService;
+//	@SuppressWarnings("SpringJavaAutowiringInspection")	//忽略警告
+//	@Resource
+//	private UserService userService;
 	/**
 	 *登录信息和用户验证信息验证(non-Javadoc)
 	 *login时调用
@@ -37,19 +37,28 @@ public class ShiroRealm extends AuthorizingRealm{
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String username = (String)token.getPrincipal();  				//得到用户名
 		String password = new String((char[])token.getCredentials()); 	//得到密码
-		PageData pd = new PageData();
-		User user = new User();
-		pd.put("username", username);
-		user = userService.findByUserName(pd);
-		if(user == null) {
-			//没有该用户
-			throw new UnknownAccountException();
-		}else if(!password.equals(user.getPassword())) {
-			//密码错误
-			throw new IncorrectCredentialsException();
+//		PageData pd = new PageData();
+//		User user = new User();
+//		pd.put("username", username);
+//		user = userService.findByUserName(pd);
+//		if(user == null) {
+//			//没有该用户
+//			System.out.println("ShiroRealm.java：没有该用户");
+//			throw new UnknownAccountException();
+//		}else if(!password.equals(user.getPassword())) {
+//			//密码错误
+//			System.out.println("ShiroRealm.java：密码错误");
+//			throw new IncorrectCredentialsException();
+//		}
+//		//如果身份验证成功，返回一个AuthenticationInfo实现;
+//		return new SimpleAuthenticationInfo(username, password, getName());
+		if(null != username && null != password) {
+			System.out.println("com.zjut.utils.ShiroRealm.java：创建用户");
+			return new SimpleAuthenticationInfo(username, password, getName());
+		}else {
+			System.out.println("com.zjut.utils.ShiroRealm.java：用户名或密码为空");
+			return null;
 		}
-		//如果身份验证成功，返回一个AuthenticationInfo实现;
-		return new SimpleAuthenticationInfo(username, password, getName());
 	}
 	
 	/*

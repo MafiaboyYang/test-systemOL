@@ -33,10 +33,17 @@ public interface UserService {
 	 */
 	User getUserByNameAndPwd(PageData pd);
 	/**
-	 *@Description:修改用户的上次登录时间
+	 *@Description:修改用户的上次登录时间和sessionId
 	 *@param pd
 	 *@return void
 	 *@throws
 	 */
 	void updateLastLogin(PageData pd);
+	/**
+	 *@Description:根据用户名获取sessionId
+	 *@param
+	 *@return String
+	 *@throws
+	 */
+	String getSessionIdByUserName(String username);
 }
