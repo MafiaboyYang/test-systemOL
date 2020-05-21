@@ -50,6 +50,13 @@ public class BaseController {
 		return request;
 	}
 	
+	/**得到分页列表的信息
+	 * @return
+	 */
+	public Page getPage(){
+		return new Page();
+	}
+	
 	public static void logBefore(Logger logger, String interfaceName){
 		logger.info("");
 		logger.info("start");

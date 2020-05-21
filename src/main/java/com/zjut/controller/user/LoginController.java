@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -17,10 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.zjut.controller.base.BaseController;
 import com.zjut.pojo.User;
+import com.zjut.pojo.system.Admin;
 import com.zjut.service.user.UserService;
 import com.zjut.utils.Const;
 import com.zjut.utils.DateUtil;
@@ -32,6 +31,7 @@ import com.zjut.utils.PageData;
 *@version 创建时间:2020年4月14日下午4:36:09
 *类说明
 */
+@RequestMapping(value="/user")
 @Controller
 public class LoginController extends BaseController{
 	@Resource
@@ -62,7 +62,7 @@ public class LoginController extends BaseController{
 	 *@return Object
 	 *@throws
 	 */
-	@RequestMapping(value = "/register",produces="application/json;charset=UTF-8")
+	@RequestMapping(value = "/register",produces="text/html;application/json;charset=UTF-8")
 	@ResponseBody
 	public Object insertU()throws Exception{
 		Map<String,String> outputData = new HashMap<String, String>();
@@ -96,6 +96,9 @@ public class LoginController extends BaseController{
 		}else if(null != userService.findByEmail(pd)) {
 			errInfo = "该电子邮箱已被注册";
 			System.out.println("该电子邮箱已被注册");
+		}else if(null != userService.findByName(pd)) {
+			errInfo = "昵称已存在";
+			System.out.println("昵称已存在");
 		}else {
 			userService.insert(user);	//执行保存
 			errInfo = "success";
@@ -115,7 +118,7 @@ public class LoginController extends BaseController{
 	 *@return Object
 	 *@throws
 	 */
-	@RequestMapping(value="/login",produces="application/json;charset=UTF-8")
+	@RequestMapping(value="/login",produces="text/html;application/json;charset=UTF-8")
 	@ResponseBody
 	public Object login()throws Exception{
 		System.out.println("com.zjut.controller.user.LoginController.java：验证用户");
@@ -167,12 +170,78 @@ public class LoginController extends BaseController{
 	}
 	
 	/**
+	 *@Description:查看用户个人信息
+	 *@param
+	 *@return Object
+	 *@throws
+	 */
+	@RequestMapping(value="/infoUser",produces="text/html;application/json;charset=UTF-8")
+	@ResponseBody
+	public Object infoUser()throws Exception{
+		System.out.println("com.zjut.controller.system.admin.AdminController.java：查看用户个人信息");
+		Map<String,Object> outputData = new HashMap<String, Object>();
+		User user = (User)Jurisdiction.getSession().getAttribute(Const.SESSION_USER);	//获得当前session下的用户
+		outputData.put("user", user);
+        String data = JSON.toJSONString(outputData);	//转化为json形式
+        System.out.println("data" + data);
+        return data;
+	}
+	
+	/**
+	 *@Description:修改用户信息
+	 *@param
+	 *id		用户id
+	 *name		用户昵称
+	 *password	密码
+	 *email		电子邮箱
+	 *phone		手机号
+	 *sex		性别
+	 *@return Object
+	 *@throws
+	 */
+	@RequestMapping(value="/editUser",produces="text/html;application/json;charset=UTF-8")
+	@ResponseBody
+	public Object editUser()throws Exception{
+		System.out.println("com.zjut.controller.system.admin.AdminController.java：修改用户信息");
+		Map<String,Object> outputData = new HashMap<String, Object>();
+		String errInfo = "success";
+		PageData pd = this.getPageData();
+		Session session = Jurisdiction.getSession();
+		//如果昵称存在而且昵称的主人不是原主人
+		if(userService.findByName(pd) != null && userService.findByName(pd).getId() != Integer.parseInt(pd.getString("id"))){
+			errInfo = "昵称已存在";
+		}//如果电子邮箱存在而且电子邮箱的主人不是原主人
+		else if(userService.findByEmail(pd) != null && userService.findByEmail(pd).getId() != Integer.parseInt(pd.getString("id"))){
+			errInfo = "电子邮箱已存在";
+		}//如果手机号存在而且手机号的主人不是原主人
+		else if(userService.findByPhone(pd) != null && userService.findByPhone(pd).getId() != Integer.parseInt(pd.getString("id"))){
+			errInfo = "手机号已存在";
+		}else {
+			User user = new User();
+			pd.put("password", DigestUtils.md5DigestAsHex(pd.getString("password").getBytes()));	//密码加密
+			user.setId(Integer.parseInt(pd.getString("id")));
+			user.setName(pd.getString("name"));
+			user.setPassword(pd.getString("password"));
+			user.setEmail(pd.getString("email"));
+			user.setPhone(pd.getString("phone"));
+			user.setSex(pd.getString("sex"));
+			userService.edit(user);		//修改用户信息
+			user = userService.findById(pd);
+			session.setAttribute(Const.SESSION_USER, user);		//将用户信息存入session
+		}
+		outputData.put("errInfo", errInfo);
+        String data = JSON.toJSONString(outputData);	//转化为json形式
+        System.out.println("data" + data);
+        return data;
+	}
+	
+	/**
 	 *@Description:未登录
 	 *@param
 	 *@return Object
 	 *@throws
 	 */
-	@RequestMapping(value = "/unauth",produces="application/json;charset=UTF-8")
+	@RequestMapping(value = "/unauth",produces="text/html;application/json;charset=UTF-8")
 	@ResponseBody
 	public Object unauth()throws Exception{
 		Map<String,String> outputData = new HashMap<String, String>();

@@ -33,15 +33,15 @@ import com.zjut.utils.ShiroRealm;
 @Configuration
 public class ShiroConfiguration {
 	
-	@Bean
-	public FilterRegistrationBean<DelegatingFilterProxy> filterRegistration() {
-		FilterRegistrationBean<DelegatingFilterProxy> filterRegistration = new FilterRegistrationBean<DelegatingFilterProxy>();
-		filterRegistration.setFilter(new DelegatingFilterProxy("shiroFilter"));
-		filterRegistration.setEnabled(true);
-		filterRegistration.addUrlPatterns("/*");
-		filterRegistration.setDispatcherTypes(DispatcherType.REQUEST);
-		return filterRegistration;
-	}
+//	@Bean
+//	public FilterRegistrationBean<DelegatingFilterProxy> filterRegistration() {
+//		FilterRegistrationBean<DelegatingFilterProxy> filterRegistration = new FilterRegistrationBean<DelegatingFilterProxy>();
+//		filterRegistration.setFilter(new DelegatingFilterProxy("shiroFilter"));
+//		filterRegistration.setEnabled(true);
+//		filterRegistration.addUrlPatterns("/*");
+//		filterRegistration.setDispatcherTypes(DispatcherType.REQUEST);
+//		return filterRegistration;
+//	}
 	
 	/**
 	 *@Description:Filter工厂，设置对应的过滤条件和跳转条件
@@ -56,8 +56,9 @@ public class ShiroConfiguration {
 		Map<String, String> map = new HashMap<String, String>();
 		//anon，配置不会被拦截的请求 顺序判断
 		map.put("/logout", "logout");
-		map.put("/login", "anon");
-		map.put("/register", "anon");
+		map.put("/admin/login","anon");
+		map.put("/user/login", "anon");
+		map.put("/user/register", "anon");
 		//authc，配置拦截的请求
 		map.put("/**", "authc");
 		//配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据

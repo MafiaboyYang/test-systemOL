@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import com.zjut.controller.interceptor.AdminLoginHandlerInterceptor;
 import com.zjut.controller.interceptor.LoginHandlerInterceptor;
 
 /**
@@ -17,6 +18,8 @@ public class MvcInterceptorConfig extends WebMvcConfigurationSupport{
 	
 	@Autowired
 	private LoginHandlerInterceptor loginHandlerInterceptor;
+	@Autowired
+	private AdminLoginHandlerInterceptor adminLoginHandlerInterceptor;
 	
 	@Override
 	protected void addInterceptors(InterceptorRegistry registry) {
@@ -24,7 +27,8 @@ public class MvcInterceptorConfig extends WebMvcConfigurationSupport{
 		//addPathPatterns用于添加拦截规则，/**表示拦截所有请求
 		//excludePathPatterns用户排除拦截
 		System.out.println("com.zjut.config.MvcInterceptorConfiguration.java：开始拦截");
-		registry.addInterceptor(loginHandlerInterceptor).addPathPatterns("/**");
+		registry.addInterceptor(loginHandlerInterceptor).excludePathPatterns("/admin/**").addPathPatterns("/**");
+		registry.addInterceptor(adminLoginHandlerInterceptor).excludePathPatterns("/user/**").addPathPatterns("/**");
 		super.addInterceptors(registry);
 	}
 }

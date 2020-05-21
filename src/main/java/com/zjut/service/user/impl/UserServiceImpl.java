@@ -1,5 +1,7 @@
 package com.zjut.service.user.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -37,11 +39,47 @@ public class UserServiceImpl implements UserService{
 	public User findByEmail(PageData pd) {
 		return userDao.findByEmail(pd);
 	}
+	/**
+	 *@Description:根据id查看用户
+	 *@param
+	 *@return User
+	 *@throws
+	 */
+	public User findById(PageData pd) {
+		return userDao.findById(pd);
+	}
 	/*
 	 * 新增用户
 	 * */
 	public void insert(User user) {
 		userDao.insert(user);
+	}
+	/**
+	 *@Description:修改用户
+	 *@param
+	 *@return void
+	 *@throws
+	 */
+	public void edit(User user) {
+		userDao.edit(user);
+	}
+	/**
+	 *@Description:删除用户（单个删除）
+	 *@param
+	 *@return void
+	 *@throws
+	 */
+	public void delete(PageData pd) {
+		userDao.delete(pd);
+	}
+	/**
+	 *@Description:删除用户（批量删除）
+	 *@param
+	 *@return void
+	 *@throws
+	 */
+	public void deleteAll(String[] str) {
+		userDao.deleteAll(str);
 	}
 	/**
 	 *@Description:根据用户名和密码查询用户
@@ -69,5 +107,41 @@ public class UserServiceImpl implements UserService{
 	 */
 	public String getSessionIdByUserName(String username) {
 		return userDao.getSessionIdByUserName(username);
+	}
+	/**
+	 *@Description:查看用户信息
+	 *@param
+	 *@return List<User>
+	 *@throws
+	 */
+	public List<User> getUserList(PageData pd){
+		return userDao.getUserList(pd);
+	}
+	/**
+	 *@Description:根据用户昵称查看用户
+	 *@param
+	 *@return User
+	 *@throws
+	 */
+	public User findByName(PageData pd) {
+		return userDao.findByName(pd);
+	}
+	/**
+	 *@Description:锁定/解锁用户
+	 *@param
+	 *@return void
+	 *@throws
+	 */
+	public void lockUser(PageData pd) {
+		userDao.lockUser(pd);
+	}
+	/**
+	 *@Description:修改用户角色
+	 *@param
+	 *@return void
+	 *@throws
+	 */
+	public void identityUser(PageData pd) {
+		userDao.identityUser(pd);
 	}
 }
