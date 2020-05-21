@@ -18,6 +18,41 @@
 	<sql id="Base_Column_List">
 		id,username,password,name,phone,email,sex,lockd,identity,registerTime,sessionId,lastLogin
 	</sql>
+	<!--查询所有用户信息-->
+	<select id="getUserList" parameterType="com.zjut.utils.PageData" resultMap="BaseResultMap" >
+		SELECT <include refid="Base_Column_List"/>
+		FROM user
+		WHERE 1=1
+		<if test="id != null and id != ''">
+			and id LIKE CONCAT(CONCAT('%', #{id}), '%')
+		</if>
+		<if test="name != null and name != ''">
+			and name LIKE CONCAT(CONCAT('%', #{name}), '%')
+		</if>
+		<if test="phone != null and phone != ''">
+			and phone LIKE CONCAT(CONCAT('%', #{phone}), '%')
+		</if>
+		ORDER BY id
+		DESC
+	</select>
+	<!-- 根据用户昵称查看用户 -->
+    <select id="findByName" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1
+        <if test="name != null and name!=''">
+        	and name = #{name}
+        </if>
+    </select>
+    <!-- 根据id查看用户 -->
+    <select id="findById" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1
+        <if test="id != null and id!=''">
+        	and id = #{id}
+        </if>
+    </select>
 	<!-- 查看用户名是否重复 -->
     <select id="findByUserName" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
         SELECT <include refid="Base_Column_List"/>
@@ -63,6 +98,44 @@
     	#{lastLogin,jdbcType=VARCHAR}
     	)
     </insert>
+    <!-- 修改用户 -->
+    <update id="edit" parameterType="com.zjut.pojo.User">
+    	UPDATE user
+    	SET
+    	<if test="password != null and password !=''">
+			password = #{password},
+		</if>
+		<if test="name != null and name !=''">
+			name = #{name},
+		</if>
+		<if test="email != null and email !=''">
+			email = #{email},
+		</if>
+		<if test="phone != null and phone !=''">
+			phone = #{phone},
+		</if>
+		<if test="sex != null and sex !=''">
+			sex = #{sex}
+		</if>
+		WHERE
+		id = #{id}
+    </update>
+    <!--删除单条-->
+	<delete id="delete" parameterType="com.zjut.utils.PageData">
+        DELETE FROM user
+        WHERE id = #{id}
+    </delete>
+    <!--批量删除-->
+	<delete id="deleteAll" parameterType="java.lang.String">
+		DELETE FROM
+		user
+		WHERE
+		id in
+		<foreach item="item" index="index" collection="array" open="("
+				 separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
     <!-- 根据用户名和密码查询用户 -->
     <select id="getUserByNameAndPwd" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
         SELECT <include refid="Base_Column_List"/>
@@ -96,5 +169,25 @@
         </if>
         WHERE
         username = #{username}
+    </update>
+    <!-- 锁定/解锁用户 -->
+    <update id="lockUser" parameterType="com.zjut.utils.PageData">
+    	UPDATE user
+    	SET
+        <if test="lockd != null and lockd!=''">
+        	lockd = #{lockd}
+        </if>
+        WHERE
+        id = #{id}
+    </update>
+    <!-- 修改用户角色 -->
+    <update id="identityUser" parameterType="com.zjut.utils.PageData">
+    	UPDATE user
+    	SET
+        <if test="identity != null and identity!=''">
+        	identity = #{identity}
+        </if>
+        WHERE
+        id = #{id}
     </update>
 </mapper>

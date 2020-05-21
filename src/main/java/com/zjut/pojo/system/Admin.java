@@ -1,4 +1,4 @@
-package com.zjut.pojo;
+package com.zjut.pojo.system;
 /**
 *@author Mafiaboy E-mail:3040998845@qq.com
 *@version 创建时间:2020年4月13日下午12:54:18

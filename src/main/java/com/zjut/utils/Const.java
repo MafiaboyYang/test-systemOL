@@ -9,6 +9,7 @@ public class Const {
 	public static final String SESSION_USER = "sessionUser";			//session中的用户
 	public static final String SESSION_USERNAME = "username";			//用户名
 	public static final String LOGIN = "/login.html";				//登录地址
+	public static final String ADMIN_LOGIN = "/admin/login.html";		//管理员登录地址
 	public static final String NO_INTERCEPTOR_PATH = ".*/((register)|(login)|(logout)).*";	//不对匹配该值的访问路径拦截（正则）
 	/**
 	 * APP Constants

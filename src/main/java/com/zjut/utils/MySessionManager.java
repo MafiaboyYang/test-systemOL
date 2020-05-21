@@ -34,8 +34,9 @@ public class MySessionManager extends DefaultWebSessionManager{
 			request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
 			return sessionId;
 		}else {
+			String id = (String)super.getSessionId(request, response);
 			//否则按默认规则从cookie取sessionId
-			return super.getSessionId(request, response);
+			return id;
 		}
 	}
 }
