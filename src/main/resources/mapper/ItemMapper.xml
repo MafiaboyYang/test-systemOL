@@ -79,4 +79,9 @@
         WHERE lockd != 0 AND id = #{itemId}
     </update>
 
+    <!-- 查看所有题目 -->
+    <select id="listTitles">
+        SELECT *
+        FROM question
+    </select>
 </mapper>

@@ -14,7 +14,9 @@ public interface TitleService {
 
     public List<Title> queryItemByLabel(int labelId);
     public List<Title> queryItemByDifficulty(String difficulty);
+    public List<Title> listTitles();
 
     public String lockTitle(int itemId);
     public String unlockTitle(int itemId);
+
 }

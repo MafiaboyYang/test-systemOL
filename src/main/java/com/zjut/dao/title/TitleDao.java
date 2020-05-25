@@ -15,42 +15,44 @@ public interface TitleDao {
     /**
      * 新增题目
      * @param item
-     * @return
      */
     void addItem(Title item);
 
     /**
      * 修改题目
      * @param item
-     * @return
      */
     void update(Title item);
 
     /**
      * 锁定题目
      * @param itemId
-     * @return
      */
     void lockItem(@Param("itemId") int itemId);
 
     /**
      * 解锁题目
      * @param itemId
-     * @return
      */
     void unlockItem(@Param("itemId") int itemId);
 
     /**
      * 根据标签查询题目
      * @param labelId
-     * @return
+     * @return titleList
      */
     List<Title> queryItemByLabel(@Param("labelId") int labelId);
 
     /**
      * 根据难度查询题目
      * @param difficulty
-     * @return
+     * @return titleList
      */
     List<Title> queryItemByDifficulty(@Param("difficulty") String difficulty);
+
+    /**
+     * 查看所有题目
+     * @return titleList
+     */
+    List<Title> listTitles();
 }

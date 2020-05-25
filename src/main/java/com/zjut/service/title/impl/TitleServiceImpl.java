@@ -85,5 +85,10 @@ public class TitleServiceImpl implements TitleService {
         return titleDao.queryItemByDifficulty(difficulty);
     }
 
+    @Override
+    public List<Title> listTitles() {
+        return titleDao.listTitles();
+    }
+
 
 }
