@@ -84,4 +84,14 @@
         SELECT *
         FROM question
     </select>
+
+    <!-- 按id查询题目 -->
+    <select id="queryTitleById">
+        select *
+        from question
+        where
+        <if test="titleId ！= null and titleId != ''">
+            id=#{titleId} AND lockd != 1
+        </if>
+    </select>
 </mapper>

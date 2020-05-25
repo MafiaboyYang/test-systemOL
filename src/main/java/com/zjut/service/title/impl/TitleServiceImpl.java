@@ -86,6 +86,11 @@ public class TitleServiceImpl implements TitleService {
     }
 
     @Override
+    public Title queryTitleById(int titleId) {
+        return titleDao.queryTitleById(titleId);
+    }
+
+    @Override
     public List<Title> listTitles() {
         return titleDao.listTitles();
     }

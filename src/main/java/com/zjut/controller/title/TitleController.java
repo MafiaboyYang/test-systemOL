@@ -3,6 +3,7 @@ package com.zjut.controller.title;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.regexp.internal.RE;
 import com.zjut.controller.base.BaseController;
 import com.zjut.pojo.Title;
 import com.zjut.service.title.TitleService;
@@ -62,8 +63,6 @@ public class TitleController extends BaseController {
 
     /**
      * 修改题目
-     *
-     * @param params 前端json参数
      * @return 修改结果
      */
     @RequestMapping(value = "/updateTitle", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -185,6 +184,7 @@ public class TitleController extends BaseController {
      * @return object
      */
     @RequestMapping(value = "/listTitles", produces = "application/json;charset=UTF-8")
+    @ResponseBody
     public Object listTitles() {
         System.out.println("com.zjut.controller.title.TitleController.java; 查看所有题目信息");
 
@@ -198,6 +198,26 @@ public class TitleController extends BaseController {
         PageInfo pageInfo = new PageInfo(titleList);
 
         outputData.put("pageInfo", pageInfo);
+        String data = JSON.toJSONString(outputData);
+        System.out.println("data" + data);
+        return data;
+    }
+
+    /**
+     * 查看单道题目
+     * @return data
+     */
+    @RequestMapping(value = "/queryTitleById", produces = "/application/json;charset=UTF-8")
+    @ResponseBody
+    public Object queryTitleById(){
+        System.out.println("com.zjut.controller.title.TitleController.java; 查看一道题目信息");
+
+        Map<String, Object> outputData = new HashMap<String, Object>();
+        PageData pd = this.getPageData();
+        int titleId = Integer.parseInt(pd.getString("itemId"));
+
+        Title title = titleService.queryTitleById(titleId);
+        outputData.put("title", title);
         String data = JSON.toJSONString(outputData);
         System.out.println("data" + data);
         return data;

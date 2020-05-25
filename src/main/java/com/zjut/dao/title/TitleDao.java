@@ -55,4 +55,10 @@ public interface TitleDao {
      * @return titleList
      */
     List<Title> listTitles();
+
+    /**
+     * 按id查询一道题目
+     * @return title
+     */
+    Title queryTitleById(@Param("titleId") int titleId);
 }
