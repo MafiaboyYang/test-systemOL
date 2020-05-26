@@ -1,0 +1,61 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjut.dao.system.admin.AdminDao">
+	<resultMap type="com.zjut.pojo.system.Admin" id="BaseResultMap">
+		<id property="id" jdbcType="INTEGER" column="id"/>
+		<result property="username" jdbcType="VARCHAR" column="username"/>
+		<result property="password" jdbcType="VARCHAR" column="password"/>
+		<result property="name" jdbcType="VARCHAR" column="name"/>
+		<result property="lastLogin" jdbcType="VARCHAR" column="lastLogin"/>
+		<result property="ip" jdbcType="VARCHAR" column="ip"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,username,password,name,lastLogin,ip
+	</sql>
+	<!-- 根据昵称查看管理员信息 -->
+    <select id="getAdminByName" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM admin
+        WHERE 1=1
+        <if test="name != null and name!=''">
+        	and name = #{name}
+        </if>
+    </select>
+    <!-- 根据用户名和密码查询管理员 -->
+    <select id="getAdminByNameAndPwd" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM admin
+        WHERE 1=1 
+        <if test="username != null and username!=''">
+        	and username = #{username}
+        </if>
+        <if test="password != null and password!=''">
+        	and password = #{password}
+        </if>
+    </select>
+    <!-- 修改管理员的上次登录时间和ip -->
+    <update id="updateLastLogin" parameterType="com.zjut.utils.PageData">
+    	UPDATE admin
+    	SET
+    	<if test="lastLogin != null and lastLogin!=''">
+        	lastLogin = #{lastLogin},
+        </if>
+        <if test="ip != null and ip!=''">
+        	ip = #{ip}
+        </if>
+        WHERE
+        username = #{username}
+    </update>
+    <!-- 修改管理员个人信息 -->
+    <update id="editAdmin" parameterType="com.zjut.utils.PageData">
+    	UPDATE admin
+    	SET
+    	<if test="name != null and name !=''">
+			name = #{name},
+		</if>
+		<if test="password != null and password !=''">
+			password = #{password}
+		</if>
+		WHERE
+		id = #{id}
+    </update>
+</mapper>
