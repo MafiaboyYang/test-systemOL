@@ -38,10 +38,10 @@ public interface TitleDao {
 
     /**
      * 根据标签查询题目
-     * @param labelId
+     * @param labelName
      * @return titleList
      */
-    List<Title> queryItemByLabel(@Param("labelId") int labelId);
+    List<Title> queryItemByLabel(@Param("labelName") String labelName);
 
     /**
      * 根据难度查询题目

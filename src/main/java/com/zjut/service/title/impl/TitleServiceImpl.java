@@ -67,12 +67,12 @@ public class TitleServiceImpl implements TitleService {
 
     /**
      * 更新题目内容
-     * @param labelId  标签id
+     * @param labelName 标签名
      * @return
      */
     @Override
-    public List<Title> queryItemByLabel(int labelId) {
-        return titleDao.queryItemByLabel(labelId);
+    public List<Title> queryItemByLabel(String labelName) {
+        return titleDao.queryItemByLabel(labelName);
     }
 
     /**
