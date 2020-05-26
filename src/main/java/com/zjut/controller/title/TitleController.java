@@ -23,6 +23,7 @@ import java.util.Map;
  * 题库管理  controller
  * 类说明
  */
+@RequestMapping(value="/adminTitle")
 @Controller
 public class TitleController extends BaseController {
 
