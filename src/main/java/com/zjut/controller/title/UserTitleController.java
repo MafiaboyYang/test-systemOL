@@ -176,7 +176,7 @@ public class UserTitleController extends BaseController {
      * 查看单道题目
      * @return data
      */
-    @RequestMapping(value = "/queryTitleById", produces = "/application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryTitleById", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object queryTitleById(){
         System.out.println("com.zjut.controller.title.TitleController.java; 查看一道题目信息");
