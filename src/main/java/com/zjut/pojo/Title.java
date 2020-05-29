@@ -7,25 +7,39 @@ public class Title {
     private int itemId;
     private String content;
     private String answer;
-    private int courseId;
+    private String courseName;
     private String difficulty;
-    private int userId;
+    private String userName;
     private String time;
     private String picture;
     private int lockd;
-    private int labelId;
+    private String labelName;
     private String type;
 
-    public Title(String content, String answer, int courseId, String difficulty, int userId, String time, String picture, int lockd, int labelId, String type) {
+    public Title(int itemId, String content, String answer, String courseName, String difficulty, String userName, String time, String picture, int lockd, String labelName, String type) {
+        this.itemId = itemId;
         this.content = content;
         this.answer = answer;
-        this.courseId = courseId;
+        this.courseName = courseName;
         this.difficulty = difficulty;
-        this.userId = userId;
+        this.userName = userName;
         this.time = time;
         this.picture = picture;
         this.lockd = lockd;
-        this.labelId = labelId;
+        this.labelName = labelName;
+        this.type = type;
+    }
+
+    public Title(String content, String answer, String courseName, String difficulty, String userName, String time, String picture, int lockd, String labelName, String type) {
+        this.content = content;
+        this.answer = answer;
+        this.courseName = courseName;
+        this.difficulty = difficulty;
+        this.userName = userName;
+        this.time = time;
+        this.picture = picture;
+        this.lockd = lockd;
+        this.labelName = labelName;
         this.type = type;
     }
 
@@ -53,13 +67,7 @@ public class Title {
         this.answer = answer;
     }
 
-    public int getCourseId() {
-        return courseId;
-    }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
 
     public String getDifficulty() {
         return difficulty;
@@ -69,12 +77,12 @@ public class Title {
         this.difficulty = difficulty;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getTime() {
@@ -101,12 +109,20 @@ public class Title {
         this.lockd = lockd;
     }
 
-    public int getLabelId() {
-        return labelId;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setLabelId(int labelId) {
-        this.labelId = labelId;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getLabelName() {
+        return labelName;
+    }
+
+    public void setLabelName(String labelName) {
+        this.labelName = labelName;
     }
 
     public String getType() {

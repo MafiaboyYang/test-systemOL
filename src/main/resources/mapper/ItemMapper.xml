@@ -2,32 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zjut.dao.title.TitleDao">
     <resultMap type="com.zjut.pojo.Title" id="BaseResultMap">
-        <id property="id" jdbcType="INTEGER" column="id"/>
+        <id property="itemId" jdbcType="INTEGER" column="id"/>
         <result property="content" jdbcType="VARCHAR" column="content"/>
         <result property="answer" jdbcType="VARCHAR" column="answer"/>
-        <result property="courseId" jdbcType="INTEGER" column="courseId"/>
+        <result property="courseName" jdbcType="VARCHAR" column="course_name"/>
         <result property="difficulty" jdbcType="VARCHAR" column="difficulty"/>
-        <result property="userId" jdbcType="INTEGER" column="userId"/>
+        <result property="userName" jdbcType="VARCHAR" column="user_name"/>
         <result property="time" jdbcType="VARCHAR" column="time"/>
         <result property="picture" jdbcType="VARCHAR" column="picture"/>
         <result property="lockd" jdbcType="INTEGER" column="lockd"/>
-        <result property="labelId" jdbcType="INTEGER" column="labelId"/>
+        <result property="labelName" jdbcType="VARCHAR" column="label_name"/>
         <result property="type" jdbcType="VARCHAR" column="type"/>
     </resultMap>
     <!-- 根据标签查询题目 -->
-    <select id="queryItemByLabel">
+    <select id="queryItemByLabel" resultMap="BaseResultMap">
         SELECT * FROM question
         where
-        <if test="labelId ！= null and labelId != ''">
-            labelId=#{labelId} AND lockd != 1
+        <if test="labelName != null and labelName != ''">
+            labelName=#{labelName} AND lockd != 1
         </if>
     </select>
 
     <!-- 根据难度查询题目 -->
-    <select id="queryItemByDifficulty">
+    <select id="queryItemByDifficulty" resultMap="BaseResultMap" >
         SELECT * FROM question
         where
-        <if test="difficulty ！= null and difficulty != ''">
+        <if test="difficulty != null and difficulty != ''">
             difficulty=#{difficulty} AND lockd != 1
         </if>
     </select>
@@ -35,10 +35,10 @@
     <!-- 新增题目 -->
     <insert id="addItem" parameterType="com.zjut.pojo.Title">
         INSERT INTO question
-        (content, answer, courseId, difficulty, userId, `time`, picture, lockd, labelId, `type`)
+        (content, answer, course_name, difficulty, user_name, `time`, picture, lockd, label_name, `type`)
         VALUES
-        (#{content}, #{answer}, #{courseId}, #{difficulty}, #{userId},
-         #{time}, #{picture}, #{lockd}, #{labelId}, #{type})
+        (#{content}, #{answer}, #{course_name}, #{difficulty}, #{user_name},
+        #{time}, #{picture}, #{lockd}, #{label_name}, #{type})
     </insert>
 
     <!-- 修改题目内容 -->
@@ -48,13 +48,13 @@
         <if test="itemId != null">
             content = #{content},
             answer = #{answer},
-            courseId = #{courseId},
+            course_name = #{course_name},
             difficulty = #{difficulty},
-            userId = #{userId},
+            user_name = #{user_name},
             `time` = #{time},
             picture = #{picture},
             lockd = #{lockd},
-            labelId = #{labelId},
+            label_name = #{label_name},
             `type` = #{type}
         </if>
         WHERE
@@ -80,18 +80,15 @@
     </update>
 
     <!-- 查看所有题目 -->
-    <select id="listTitles">
+    <select id="listTitles" resultMap="BaseResultMap" >
         SELECT *
         FROM question
     </select>
 
     <!-- 按id查询题目 -->
-    <select id="queryTitleById">
-        select *
-        from question
+    <select id="queryTitleById" resultMap="BaseResultMap" >
+        SELECT * FROM question
         where
-        <if test="titleId ！= null and titleId != ''">
-            id=#{titleId} AND lockd != 1
-        </if>
+        id=#{titleId} AND lockd != 1
     </select>
 </mapper>
