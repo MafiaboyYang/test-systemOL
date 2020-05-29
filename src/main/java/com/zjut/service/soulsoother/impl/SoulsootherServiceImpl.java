@@ -31,8 +31,8 @@ public class SoulsootherServiceImpl implements SoulsootherService{
      * @return
      */
 	@Override
-	public String deleteSoulsoother(int soulsoother_id) {
-		soulsootherDao.deleteSoulsoother(soulsoother_id);
+	public String deleteSoulsoother(int id) {
+		soulsootherDao.deleteSoulsoother(id);
 		return "删除成功";
 	}
     /**

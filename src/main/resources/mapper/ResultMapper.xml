@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zjut.dao.ResultDao">
 	<resultMap type="com.zjut.pojo.Result" id="resultMap">
-		<id property="result_id" jdbcType="INTEGER" column="result_id"/>
-		<result property="result_paperId" jdbcType="INTEGER" column="result_paperId"/>
-		<result property="result_time" jdbcType="INTEGER" column="result_time"/>
-		<result property="result_score" jdbcType="INTEGER" column="result_score"/>
+		<id property="id" jdbcType="INTEGER" column="id"/>
+		<result property="paperId" jdbcType="INTEGER" column="paperId"/>
+		<result property="time" jdbcType="INTEGER" column="time"/>
+		<result property="score" jdbcType="INTEGER" column="score"/>
 		<result property="userid" jdbcType="INTEGER" column="userid"/>
-		<result property="result_report" jdbcType="VARCHAR" column="result_report"/>
+		<result property="report" jdbcType="VARCHAR" column="report"/>
 	</resultMap>
 	        <!--试卷列表-->
     <select id="findAllpaperid" resultMap="resultMap">
@@ -15,14 +15,14 @@
     </select>
             <!--根据试卷号查看考试结果-->
     <select id="findbypaperid" resultMap="resultMap">
-        select userid,result_time,result_score from result where paper_id = #{paper_id};
+        select userid,time,score from result where paper_id = #{paper_id};
     </select>
         <!--答题用户以考试结果进行排序-->
-    <select id="findbypaperidAndresult_score" resultMap="resultMap">
-        select userid from result where paper_id = #{paper_id} order by result_score;
+    <select id="findbypaperidAndscore" resultMap="resultMap">
+        select userid from result where paper_id = #{paper_id} order by score;
     </select>
         <!--答题用户以考试时间进行排序-->
-    <select id="findbypaperidAndresult_time" resultMap="resultMap">
-        select userid from result where paper_id = #{paper_id} order by result_time;
+    <select id="findbypaperidAndtime" resultMap="resultMap">
+        select userid from result where paper_id = #{paper_id} order by time;
     </select>
 </mapper>

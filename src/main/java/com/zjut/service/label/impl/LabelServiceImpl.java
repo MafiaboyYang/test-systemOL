@@ -31,8 +31,8 @@ public class LabelServiceImpl implements LabelService{
      * @return
      */
 	@Override
-	public String deleteLabel(int label_id) {
-		labelDao.deleteLabel(label_id);	
+	public String deleteLabel(int id) {
+		labelDao.deleteLabel(id);	
 		return "删除成功";
 	}
 	

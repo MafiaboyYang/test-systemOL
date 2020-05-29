@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zjut.dao.LabelDao">
 	<resultMap type="com.zjut.pojo.Label" id="labelMap">
-		<id property="label_id" jdbcType="INTEGER" column="label_id"/>
+		<id property="id" jdbcType="INTEGER" column="id"/>
 		         <!--前面是用户名称后面是数据库内名称-->
-		<result property="label_content" jdbcType="VARCHAR" column="label_content"/>
+		<result property="content" jdbcType="VARCHAR" column="content"/>
 	</resultMap>
     <!--保存标签-->
 	<insert id="addLabel" parameterType="com.zjut.pojo.Label">
-	insert into label(label_content) values(#{label_content});
+	insert into label(content) values(#{content});
 	</insert>
 	<!--删除标签-->
     <delete id="deleteLabel" parameterType="int">
-        delete from label where label_id = #{label_id};
+        delete from label where id = #{id};
     </delete>
         <!--显示所有的标签-->
     <select id="findAllLabel" resultMap="labelMap">
