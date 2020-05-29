@@ -23,10 +23,11 @@ import com.zjut.utils.PageData;
 @RequestMapping(value = "/userWrongque")
 @Controller
 public class WrongqueController extends BaseController{
-    @Resource(name = "wrongqueService")
+    @Resource(name = "WrongqueService")
     private WrongqueService wrongqueService;
-    @Resource(name = "wrongque")
-    private Wrongque wrongque;
+//    @Resource(name = "wrongque")
+//    private Wrongque wrongque;
+    @Resource
     private TitleService titleService; 
     /**
      * 分页根据用户ID查看考试结果

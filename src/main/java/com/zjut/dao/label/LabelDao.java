@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import com.zjut.pojo.Label;
 import java.util.List;
 
-@Repository(value = "labelDao")
+@Repository(value = "LabelDao")
 public interface LabelDao {
 	//增
     /**

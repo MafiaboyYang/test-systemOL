@@ -10,9 +10,9 @@ import com.zjut.dao.label.LabelDao;
 import com.zjut.pojo.Label;
 import com.zjut.service.label.LabelService;
 
-@Service(value = "labelService")
+@Service(value = "LabelService")
 public class LabelServiceImpl implements LabelService{
-    @Resource(name = "label")
+    @Resource(name = "LabelDao")
     private LabelDao labelDao;
     /**
      * 增加标签

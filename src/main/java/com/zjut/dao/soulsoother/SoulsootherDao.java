@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import com.zjut.pojo.Soulsoother;
 
-@Repository(value = "soulsootherDao")
+@Repository(value = "SoulsootherDao")
 public interface SoulsootherDao {
     /**
      * 新增标签

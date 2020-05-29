@@ -21,10 +21,10 @@ import com.zjut.utils.PageData;
 @RequestMapping(value = "/userResult")
 @Controller
 public class ResultController extends BaseController{
-    @Resource(name = "resultService")
+    @Resource(name = "ResultService")
     private ResultService resultService;
-    @Resource(name = "result")
-    private Result result;
+//    @Resource(name = "result")
+//    private Result result;
     
     /**
      * 分页查询试卷列表

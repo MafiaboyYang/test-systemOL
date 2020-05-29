@@ -7,7 +7,7 @@ import com.zjut.pojo.Wrongque;
 
 import java.util.List;
 
-@Repository(value = "wrongqueDao")
+@Repository(value = "WrongqueDao")
 public interface WrongqueDao {
     /**
      * 查询用户错题集

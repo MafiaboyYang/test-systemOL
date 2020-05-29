@@ -23,10 +23,10 @@ import com.zjut.utils.PageData;
 @RequestMapping(value = "/userLabel")
 @Controller
 public class LabelController extends BaseController{
-    @Resource(name = "labelService")
+    @Resource(name = "LabelService")
     private LabelService labelService;
-    @Resource(name = "label")
-    private Label label;
+//    @Resource(name = "label")
+//    private Label label;
     /**
      * 新增标签
      * @param params  前端json参数

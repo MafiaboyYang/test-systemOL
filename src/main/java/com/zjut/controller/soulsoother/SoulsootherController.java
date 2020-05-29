@@ -23,10 +23,10 @@ import com.zjut.utils.PageData;
 @RequestMapping(value = "/userSoulsoother")
 @Controller
 public class SoulsootherController extends BaseController {
-	    @Resource(name = "soulsootherService")
+	    @Resource(name = "SoulsootherService")
 	    private SoulsootherService soulsootherService;
-	    @Resource(name = "soulsoother")
-	    private Soulsoother soulsoother;
+//	    @Resource(name = "soulsoother")
+//	    private Soulsoother soulsoother;
 	    /**
 	     * 新增心灵鸡汤
 	     * @param params  前端json参数

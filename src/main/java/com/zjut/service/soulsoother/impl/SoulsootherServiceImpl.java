@@ -12,7 +12,7 @@ import com.zjut.service.soulsoother.SoulsootherService;
 
 @Service(value = "SoulsootherService")
 public class SoulsootherServiceImpl implements SoulsootherService{
-    @Resource(name = "Soulsoother")
+    @Resource(name = "SoulsootherDao")
     private SoulsootherDao soulsootherDao;
     /**
      * 增加心灵鸡汤

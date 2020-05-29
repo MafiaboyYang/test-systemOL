@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.zjut.pojo.Result;
 import java.util.List;
 
-@Repository(value = "resultDao")
+@Repository(value = "ResultDao")
 public interface ResultDao {
     /**
      * 试卷列表

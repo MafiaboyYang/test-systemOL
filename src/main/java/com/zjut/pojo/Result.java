@@ -1,8 +1,5 @@
 package com.zjut.pojo;
 
-import org.springframework.stereotype.Component;
-
-@Component(value = "result")
 public class Result {
     private int result_id;
     private int result_paperId;

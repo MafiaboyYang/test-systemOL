@@ -10,9 +10,9 @@ import com.zjut.dao.wrongque.WrongqueDao;
 import com.zjut.pojo.Wrongque;
 import com.zjut.service.wrongque.WrongqueService;
 
-@Service(value = "wrongqueService")
+@Service(value = "WrongqueService")
 public class WrongqueImpl implements WrongqueService{
-    @Resource(name = "wrongque")
+    @Resource(name = "WrongqueDao")
     private WrongqueDao wrongqueDao;	
     /**
      * 查询用户错题号

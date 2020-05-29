@@ -11,9 +11,9 @@ import com.zjut.dao.result.ResultDao;
 import com.zjut.pojo.Result;
 import com.zjut.service.result.ResultService;
 
-@Service(value = "resultService")
+@Service(value = "ResultService")
 public class ResultServiceImpl implements ResultService{
-    @Resource(name = "result")
+    @Resource(name = "ResultDao")
     private ResultDao resultDao;
     /**
      * 试卷列表
