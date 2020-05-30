@@ -19,17 +19,17 @@ public interface ResultDao {
      * @param paperid
      * @return
      */
-	public List<Result> findbypaperid(@Param("paperid")int paperid);
+	public List<Result> findbypaperid(@Param("paperid")int paperId);
     /**
      * 根据考试结果查询排序
      * @param paperid
      * @return
      */
-	public List<Result> findbypaperidAndresult_score(@Param("paperid")int paperid);
+	public List<Result> findbypaperidAndresult_score(@Param("paperid")int paperId);
     /**
      * 根据考试结果查询排序
      * @param paperid
      * @return
      */
-	public List<Result> findbypaperidAndresult_time(@Param("paperid")int paperid);
+	public List<Result> findbypaperidAndresult_time(@Param("paperid")int paperId);
 }

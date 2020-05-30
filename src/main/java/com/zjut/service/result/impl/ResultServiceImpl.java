@@ -28,24 +28,24 @@ public class ResultServiceImpl implements ResultService{
      * @param paperid
      * @return
      */
-	public List<Result> findbypaperid(int paper_id){
-		return  resultDao.findbypaperid(paper_id);
+	public List<Result> findbypaperid(int paperId){
+		return  resultDao.findbypaperid(paperId);
 	};
     /**
      * 按成绩查询考试结果
-     * @param paper_id 试卷标签id
+     * @param paperid 试卷标签id
      * @return
      */
-    public List<Result> findbypaperidAndresult_score(int paper_id) {
-    	return  resultDao.findbypaperidAndresult_score(paper_id);
+    public List<Result> findbypaperidAndresult_score(int paperId) {
+    	return  resultDao.findbypaperidAndresult_score(paperId);
     } 
     
     /**
      * 按时间查询考试结果
-     * @param paper_id  试卷id
+     * @param paperid  试卷id
      * @return
      */
-    public List<Result> findbypaperidAndresult_time(int paper_id) {
-    	return resultDao.findbypaperidAndresult_time(paper_id);
+    public List<Result> findbypaperidAndresult_time(int paperId) {
+    	return resultDao.findbypaperidAndresult_time(paperId);
     }
 }

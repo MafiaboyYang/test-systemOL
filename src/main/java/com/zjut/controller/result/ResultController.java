@@ -82,12 +82,12 @@ public class ResultController extends BaseController{
     public Object findbypaperidAndresult_score(){ 	
     	Map<String,Object> outputData = new HashMap<String, Object>();
         PageData pageData = this.getPageData();
-        int paper_id = (int) pageData.get("paper_id");
+        int paperId = (int) pageData.get("paperId");
         String page = pageData.getString("page");			//当前页码
         String pageSize = pageData.getString("pageSize");	//每页查询条数
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
-        List<Result> result = resultService.findbypaperidAndresult_score(paper_id);
+        List<Result> result = resultService.findbypaperidAndresult_score(paperId);
         PageInfo pageInfo = new PageInfo(result);
 
         outputData.put("pageInfo", pageInfo);
@@ -106,12 +106,12 @@ public class ResultController extends BaseController{
     public  Object findbypaperidAndresult_time(){ 	
     	Map<String,Object> outputData = new HashMap<String, Object>();
         PageData pageData = this.getPageData();
-        int paper_id = (int) pageData.get("paper_id");
+        int paperId = (int) pageData.get("paperId");
         String page = pageData.getString("page");			//当前页码
         String pageSize = pageData.getString("pageSize");	//每页查询条数
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
-        List<Result> result = resultService.findbypaperidAndresult_time(paper_id);
+        List<Result> result = resultService.findbypaperidAndresult_time(paperId);
         PageInfo pageInfo = new PageInfo(result);
 
         outputData.put("pageInfo", pageInfo);
