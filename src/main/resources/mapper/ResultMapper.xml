@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zjut.dao.result.ResultDao">
-	<resultMap type="com.zjut.pojo.Result" id="resultMap">
+	<resultMap type="com.zjut.pojo.Result" id="BaseResultMap">
 		<id property="id" jdbcType="INTEGER" column="id"/>
 		<result property="paperId" jdbcType="INTEGER" column="paperId"/>
 		<result property="time" jdbcType="INTEGER" column="time"/>
@@ -10,19 +10,19 @@
 		<result property="report" jdbcType="VARCHAR" column="report"/>
 	</resultMap>
 	        <!--试卷列表-->
-    <select id="findAllpaperid" resultMap="resultMap">
+    <select id="findAllpaperid" resultMap="BaseResultMap">
         select paperId from result;
     </select>
             <!--根据试卷号查看考试结果-->
-    <select id="findbypaperid" resultMap="resultMap">
+    <select id="findbypaperid" resultMap="BaseResultMap">
         select userid,time,score from result where paperId = #{paperId};
     </select>
         <!--答题用户以考试结果进行排序-->
-    <select id="findbypaperidAndscore" resultMap="resultMap">
+    <select id="findbypaperidAndscore" resultMap="BaseResultMap">
         select userid from result where paperId = #{paperId} order by score;
     </select>
         <!--答题用户以考试时间进行排序-->
-    <select id="findbypaperidAndtime" resultMap="resultMap">
+    <select id="findbypaperidAndtime" resultMap="BaseResultMap">
         select userid from result where paperId = #{paperId} order by time;
     </select>
 </mapper>

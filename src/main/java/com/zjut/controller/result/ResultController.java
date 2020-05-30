@@ -39,8 +39,8 @@ public class ResultController extends BaseController{
         String pageSize = pageData.getString("pageSize");	//每页查询条数
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
-        List<Result> result = resultService.findAllpaperid();
-        PageInfo pageInfo = new PageInfo(result);
+        List<Integer> result = resultService.findAllpaperid();
+        PageInfo<Integer> pageInfo = new PageInfo<Integer>(result);
 
         outputData.put("pageInfo", pageInfo);
         String data = JSON.toJSONString(outputData);
@@ -64,7 +64,7 @@ public class ResultController extends BaseController{
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Result> result = resultService.findbypaperid(paper_id);
-        PageInfo pageInfo = new PageInfo(result);
+        PageInfo<Result> pageInfo = new PageInfo<Result>(result);
 
         outputData.put("pageInfo", pageInfo);
         String data = JSON.toJSONString(outputData);
@@ -88,7 +88,7 @@ public class ResultController extends BaseController{
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Result> result = resultService.findbypaperidAndresult_score(paperId);
-        PageInfo pageInfo = new PageInfo(result);
+        PageInfo<Result> pageInfo = new PageInfo<Result>(result);
 
         outputData.put("pageInfo", pageInfo);
         String data = JSON.toJSONString(outputData);
@@ -112,7 +112,7 @@ public class ResultController extends BaseController{
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Result> result = resultService.findbypaperidAndresult_time(paperId);
-        PageInfo pageInfo = new PageInfo(result);
+        PageInfo<Result> pageInfo = new PageInfo<Result>(result);
 
         outputData.put("pageInfo", pageInfo);
         String data = JSON.toJSONString(outputData);

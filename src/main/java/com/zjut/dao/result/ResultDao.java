@@ -13,7 +13,7 @@ public interface ResultDao {
      * @param paperid
      * @return
      */
-	public List<Result> findAllpaperid();
+	public List<Integer> findAllpaperid();
     /**
      * 根据试卷号查看考试结果
      * @param paperid

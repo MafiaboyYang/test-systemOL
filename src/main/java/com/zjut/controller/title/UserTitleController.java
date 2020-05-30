@@ -111,7 +111,7 @@ public class UserTitleController extends BaseController {
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Title> titleList = titleService.queryItemByLabel(labelName);
-        PageInfo pageInfo = new PageInfo(titleList);
+        PageInfo<Title> pageInfo = new PageInfo<Title>(titleList);
 
         outputData.put("pageInfo", pageInfo);
         String data = JSON.toJSONString(outputData);
@@ -138,7 +138,7 @@ public class UserTitleController extends BaseController {
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Title> titleList = titleService.queryItemByDifficulty(difficulty);
-        PageInfo pageInfo = new PageInfo(titleList);
+        PageInfo<Title> pageInfo = new PageInfo<Title>(titleList);
 
         outputData.put("pageInfo", pageInfo);
         String data = JSON.toJSONString(outputData);
@@ -164,7 +164,7 @@ public class UserTitleController extends BaseController {
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Title> titleList = titleService.listTitles();
-        PageInfo pageInfo = new PageInfo(titleList);
+        PageInfo<Title> pageInfo = new PageInfo<Title>(titleList);
 
         outputData.put("pageInfo", pageInfo);
         String data = JSON.toJSONString(outputData);

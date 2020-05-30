@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zjut.dao.label.LabelDao">
-	<resultMap type="com.zjut.pojo.Label" id="labelMap">
+	<resultMap type="com.zjut.pojo.Label" id="BaseResultMap">
 		<id property="id" jdbcType="INTEGER" column="id"/>
 		         <!--前面是用户名称后面是数据库内名称-->
 		<result property="content" jdbcType="VARCHAR" column="content"/>
@@ -15,7 +15,7 @@
         delete from label where id = #{id};
     </delete>
         <!--显示所有的标签-->
-    <select id="findAllLabel" resultMap="labelMap">
+    <select id="findAllLabel" resultMap="BaseResultMap">
         select * from label
     </select>
 </mapper>

@@ -20,7 +20,7 @@ public class ResultServiceImpl implements ResultService{
      * @param paperid
      * @return
      */
-	public List<Result>  findAllpaperid(){
+	public List<Integer>  findAllpaperid(){
     	return  resultDao.findAllpaperid();
     } 
     /**

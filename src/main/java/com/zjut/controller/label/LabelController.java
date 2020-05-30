@@ -69,7 +69,7 @@ public class LabelController extends BaseController{
     	
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Label> label =labelService.findAllLabel();
-        PageInfo pageInfo = new PageInfo(label);
+        PageInfo<Label> pageInfo = new PageInfo<Label>(label);
 
         outputData.put("pageInfo", pageInfo);
     	String data=JSON.toJSONString(outputData);	
