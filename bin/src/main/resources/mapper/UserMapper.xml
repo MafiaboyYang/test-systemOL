@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjut.dao.user.UserDao">
+	<resultMap type="com.zjut.pojo.User" id="BaseResultMap">
+		<id property="id" jdbcType="INTEGER" column="id"/>
+		<result property="username" jdbcType="VARCHAR" column="username"/>
+		<result property="password" jdbcType="VARCHAR" column="password"/>
+		<result property="name" jdbcType="VARCHAR" column="name"/>
+		<result property="phone" jdbcType="VARCHAR" column="phone"/>
+		<result property="email" jdbcType="VARCHAR" column="email"/>
+		<result property="sex" jdbcType="VARCHAR" column="sex"/>
+		<result property="lockd" jdbcType="INTEGER" column="lockd"/>
+		<result property="identity" jdbcType="INTEGER" column="identity"/>
+		<result property="registerTime" jdbcType="VARCHAR" column="registerTime"/>
+		<result property="sessionId" jdbcType="VARCHAR" column="sessionId"/>
+		<result property="lastLogin" jdbcType="VARCHAR" column="lastLogin"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,username,password,name,phone,email,sex,lockd,identity,registerTime,sessionId,lastLogin
+	</sql>
+	<!--查询所有用户信息-->
+	<select id="getUserList" parameterType="com.zjut.utils.PageData" resultMap="BaseResultMap" >
+		SELECT <include refid="Base_Column_List"/>
+		FROM user
+		WHERE 1=1
+		<if test="id != null and id != ''">
+			and id LIKE CONCAT(CONCAT('%', #{id}), '%')
+		</if>
+		<if test="name != null and name != ''">
+			and name LIKE CONCAT(CONCAT('%', #{name}), '%')
+		</if>
+		<if test="phone != null and phone != ''">
+			and phone LIKE CONCAT(CONCAT('%', #{phone}), '%')
+		</if>
+		ORDER BY id
+		DESC
+	</select>
+	<!-- 根据用户昵称查看用户 -->
+    <select id="findByName" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1
+        <if test="name != null and name!=''">
+        	and name = #{name}
+        </if>
+    </select>
+    <!-- 根据id查看用户 -->
+    <select id="findById" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1
+        <if test="id != null and id!=''">
+        	and id = #{id}
+        </if>
+    </select>
+	<!-- 查看用户名是否重复 -->
+    <select id="findByUserName" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1
+        <if test="username != null and username!=''">
+        	and username = #{username}
+        </if>
+    </select>
+    <!-- 根据手机号查询用户 -->
+    <select id="findByPhone" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1 
+        <if test="phone != null and phone!=''">
+        	and phone = #{phone}
+        </if>
+    </select>
+    <!-- 根据电子邮箱查询用户 -->
+    <select id="findByEmail" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1 
+        <if test="email != null and email!=''">
+        	and email = #{email}
+        </if>
+    </select>
+    <!-- 新增用户 -->
+    <insert id="insert" parameterType="com.zjut.pojo.User">
+    	INSERT into user
+    	(username,password,name,phone,email,sex,lockd,identity,registerTime,sessionId,lastLogin)
+    	VALUE
+    	(#{username,jdbcType=VARCHAR},
+    	#{password,jdbcType=VARCHAR},
+    	#{name,jdbcType=VARCHAR},
+    	#{phone,jdbcType=VARCHAR},
+    	#{email,jdbcType=VARCHAR},
+    	#{sex,jdbcType=VARCHAR},
+    	#{lockd,jdbcType=INTEGER},
+    	#{identity,jdbcType=INTEGER},
+    	#{registerTime,jdbcType=VARCHAR},
+    	#{sessionId,jdbcType=VARCHAR},
+    	#{lastLogin,jdbcType=VARCHAR}
+    	)
+    </insert>
+    <!-- 修改用户 -->
+    <update id="edit" parameterType="com.zjut.pojo.User">
+    	UPDATE user
+    	SET
+    	<if test="password != null and password !=''">
+			password = #{password},
+		</if>
+		<if test="name != null and name !=''">
+			name = #{name},
+		</if>
+		<if test="email != null and email !=''">
+			email = #{email},
+		</if>
+		<if test="phone != null and phone !=''">
+			phone = #{phone},
+		</if>
+		<if test="sex != null and sex !=''">
+			sex = #{sex}
+		</if>
+		WHERE
+		id = #{id}
+    </update>
+    <!--删除单条-->
+	<delete id="delete" parameterType="com.zjut.utils.PageData">
+        DELETE FROM user
+        WHERE id = #{id}
+    </delete>
+    <!--批量删除-->
+	<delete id="deleteAll" parameterType="java.lang.String">
+		DELETE FROM
+		user
+		WHERE
+		id in
+		<foreach item="item" index="index" collection="array" open="("
+				 separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+    <!-- 根据用户名和密码查询用户 -->
+    <select id="getUserByNameAndPwd" resultMap="BaseResultMap" parameterType="com.zjut.utils.PageData">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE 1=1 
+        <if test="username != null and username!=''">
+        	and username = #{username}
+        </if>
+        <if test="password != null and password!=''">
+        	and password = #{password}
+        </if>
+    </select>
+    <!-- 根据用户名获得sessionId -->
+    <select id="getSessionIdByUserName" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT sessionId
+        FROM user
+        WHERE 1=1 
+        <if test="username != null and username!=''">
+        	and username = #{username}
+        </if>
+    </select>
+    <!-- 修改用户的上次登录时间和sessionId -->
+    <update id="updateLastLogin" parameterType="com.zjut.utils.PageData">
+    	UPDATE user
+    	SET
+    	<if test="lastLogin != null and lastLogin!=''">
+        	lastLogin = #{lastLogin},
+        </if>
+        <if test="sessionId != null and sessionId!=''">
+        	sessionId = #{sessionId}
+        </if>
+        WHERE
+        username = #{username}
+    </update>
+    <!-- 锁定/解锁用户 -->
+    <update id="lockUser" parameterType="com.zjut.utils.PageData">
+    	UPDATE user
+    	SET
+        <if test="lockd != null and lockd!=''">
+        	lockd = #{lockd}
+        </if>
+        WHERE
+        id = #{id}
+    </update>
+    <!-- 修改用户角色 -->
+    <update id="identityUser" parameterType="com.zjut.utils.PageData">
+    	UPDATE user
+    	SET
+        <if test="identity != null and identity!=''">
+        	identity = #{identity}
+        </if>
+        WHERE
+        id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjut.dao.TestDao">
+	<resultMap type="com.zjut.pojo.Test" id="BaseResultMap">
+		<id property="id" jdbcType="INTEGER" column="id"/>
+		<result property="name" jdbcType="VARCHAR" column="name"/>
+		<result property="password" jdbcType="VARCHAR" column="password"/>
+	</resultMap>
+	<sql id="Base_Column_List">id,name,password</sql>
+	<!-- 根据用户id查询用户 -->
+    <select id="getUserById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user
+        WHERE
+        id = #{id}
+    </select>
+    <!-- 根据用户名（手机号）查询用户 -->
+    <select id="getUserByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user
+        WHERE
+        name = #{name}
+    </select>
+</mapper>

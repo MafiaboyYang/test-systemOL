@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/testsystemol?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 123456
+    #使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+
+server:
+  port: 8090
+  servlet:
+   context-path: /api 
+  
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml  #指定*Mapper.xml的位置
+  #config-location: classpath:mybatis-config.xml
+  type-aliases-package: com.zjut.pojo #实体类所在包
+
+#分页pageHelper
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+#  params: count=countSql
+#设置日志级别，打印mybatis的日志
+logging:
+  level:
+   com: 
+    zjut:
+     dao: debug
+
+
+
+#开发配置
+#spring:
+#  profiles: dev
