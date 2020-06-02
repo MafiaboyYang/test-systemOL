@@ -30,6 +30,59 @@ public class TitleController extends BaseController {
     @Autowired
     private TitleService titleService;    //题库管理服务类
 
+    @RequestMapping("/test")
+    @ResponseBody
+    public String test(){
+
+        /*添加题目*/
+        /*Title title = new Title("1", "wei", 1, "1", 1, "1", "1", 1, 1, "1" );
+        titleService.addTitle(title);*/
+
+        /*修改题目*/
+        /*Title title_new = new Title("1", "wei123", 1, "1", 1, "1", "1", 1, 1, "1" );
+        title_new.setItemId(4);
+        titleService.updateTitle(title_new);*/
+
+        /*锁定解锁*/
+        /*titleService.lockTitle(1);
+        titleService.unlockTitle(4);*/
+
+        /*按标签搜索*/
+        int labelId = 1;
+        int courseId;
+        int userId;
+        List<Title> titleList = titleService.queryItemByLabel(labelId);
+        titleList = titleService.setListInfo(titleList);
+
+        /*int length = titleList.size();
+        while(length > 0){
+            labelId = titleList.get(length - 1).getLabelId();
+            courseId = titleList.get(length - 1).getCourseId();
+            userId = titleList.get(length - 1).getUserId();
+            titleList.get(length - 1).setLabelContent(titleService.queryLabelById(labelId));
+            titleList.get(length - 1).setCourseName(titleService.queryCourseNameById(courseId));
+            titleList.get(length - 1).setUserName(titleService.queryUserNameById(userId));
+
+            length --;
+        }*/
+        System.out.println(titleList.get(0).toString());
+
+        /*按难度搜索*/
+        /*String difficulty = "1";
+        List<Title> titleList  = titleService.queryItemByDifficulty(difficulty);
+        System.out.println(titleList.get(0).getItemId() + "   " + titleList.get(1).getItemId());*/
+
+        /*显示所有题目*/
+        /*List<Title> titleList  = titleService.listTitles();
+        System.out.println(titleList.get(0).getItemId() + "   " + titleList.get(1).getItemId());*/
+
+        /*查看单道题目*/
+        /*Title title = titleService.queryTitleById(2);
+        System.out.println(title.getItemId());*/
+
+        return "123";
+    }
+
 
     /**
      * 新增题目
@@ -45,16 +98,16 @@ public class TitleController extends BaseController {
 
         String content = pd.getString("content");
         String answer = pd.getString("answer");
-        String courseName = pd.getString("courseName");
+        int courseId = Integer.parseInt(pd.getString("courseId"));
         String difficulty = pd.getString("difficulty");
-        String userName = pd.getString("userName");
+        int userId = Integer.parseInt(pd.getString("userId"));
         String time = pd.getString("time");
         String picture = pd.getString("picture");
         int lockd = Integer.parseInt(pd.getString("lockd"));
-        String labelName = pd.getString("labelName");
+        int labelId = Integer.parseInt(pd.getString("labelId"));
         String type = pd.getString("type");
 
-        Title title = new Title(content, answer, courseName, difficulty, userName, time, picture, lockd, labelName, type);
+        Title title = new Title(content, answer, courseId, difficulty, userId, time, picture, lockd, labelId, type);
         String msg = titleService.addTitle(title);
 
         outputData.put("result_message", msg);
@@ -74,16 +127,16 @@ public class TitleController extends BaseController {
 
         String content = pd.getString("content");
         String answer = pd.getString("answer");
-        String courseName = pd.getString("courseName");
+        int courseId = Integer.parseInt(pd.getString("courseId"));
         String difficulty = pd.getString("difficulty");
-        String userName = pd.getString("userName");
+        int userId = Integer.parseInt(pd.getString("userId"));
         String time = pd.getString("time");
         String picture = pd.getString("picture");
         int lockd = Integer.parseInt(pd.getString("lockd"));
-        String labelName = pd.getString("labelName");
+        int labelId = Integer.parseInt(pd.getString("labelId"));
         String type = pd.getString("type");
 
-        Title title = new Title(content, answer, courseName, difficulty, userName, time, picture, lockd, labelName, type);
+        Title title = new Title(content, answer, courseId, difficulty, userId, time, picture, lockd, labelId, type);
         title.setItemId(Integer.parseInt(pd.getString("itemId")));
 
         String msg = titleService.updateTitle(title);
@@ -137,12 +190,14 @@ public class TitleController extends BaseController {
 
         Map<String, Object> outputData = new HashMap<String, Object>();
         PageData pageData = this.getPageData();
-        String labelName = pageData.getString("labelName");
+        int labelId = Integer.parseInt( pageData.getString("labelName"));
         String page = pageData.getString("page");            //当前页码
         String pageSize = pageData.getString("pageSize");    //每页查询条数
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
-        List<Title> titleList = titleService.queryItemByLabel(labelName);
+        List<Title> titleList = titleService.queryItemByLabel(labelId);
+        titleList = titleService.setListInfo(titleList);
+
         PageInfo pageInfo = new PageInfo(titleList);
 
         outputData.put("pageInfo", pageInfo);
@@ -170,6 +225,7 @@ public class TitleController extends BaseController {
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Title> titleList = titleService.queryItemByDifficulty(difficulty);
+        titleList = titleService.setListInfo(titleList);
         PageInfo pageInfo = new PageInfo(titleList);
 
         outputData.put("pageInfo", pageInfo);
@@ -196,6 +252,7 @@ public class TitleController extends BaseController {
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Title> titleList = titleService.listTitles();
+        titleList = titleService.setListInfo(titleList);
         PageInfo pageInfo = new PageInfo(titleList);
 
         outputData.put("pageInfo", pageInfo);
@@ -218,6 +275,14 @@ public class TitleController extends BaseController {
         int titleId = Integer.parseInt(pd.getString("itemId"));
 
         Title title = titleService.queryTitleById(titleId);
+        int labelId, courseId, userId;
+        labelId = title.getLabelId();
+        courseId = title.getCourseId();
+        userId = title.getUserId();
+        title.setLabelContent(titleService.queryLabelById(labelId));
+        title.setCourseName(titleService.queryCourseNameById(courseId));
+        title.setUserName(titleService.queryUserNameById(userId));
+
         outputData.put("title", title);
         String data = JSON.toJSONString(outputData);
         System.out.println("data" + data);

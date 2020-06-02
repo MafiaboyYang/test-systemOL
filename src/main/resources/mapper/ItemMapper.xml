@@ -5,21 +5,27 @@
         <id property="itemId" jdbcType="INTEGER" column="id"/>
         <result property="content" jdbcType="VARCHAR" column="content"/>
         <result property="answer" jdbcType="VARCHAR" column="answer"/>
-        <result property="courseName" jdbcType="VARCHAR" column="course_name"/>
+        <result property="courseId" jdbcType="INTEGER" column="course_id"/>
         <result property="difficulty" jdbcType="VARCHAR" column="difficulty"/>
-        <result property="userName" jdbcType="VARCHAR" column="user_name"/>
+        <result property="userId" jdbcType="INTEGER" column="user_id"/>
         <result property="time" jdbcType="VARCHAR" column="time"/>
         <result property="picture" jdbcType="VARCHAR" column="picture"/>
         <result property="lockd" jdbcType="INTEGER" column="lockd"/>
-        <result property="labelName" jdbcType="VARCHAR" column="label_name"/>
+        <result property="labelId" jdbcType="INTEGER" column="label_id"/>
         <result property="type" jdbcType="VARCHAR" column="type"/>
     </resultMap>
+
+    <resultMap id="labelMap" type="String">
+        <id property="id" jdbcType="INTEGER" column="id" />
+        <result property="labelContent" jdbcType="VARCHAR" column="content"/>
+    </resultMap>
+
     <!-- 根据标签查询题目 -->
     <select id="queryItemByLabel" resultMap="BaseResultMap">
         SELECT * FROM question
         where
-        <if test="labelName != null and labelName != ''">
-            labelName=#{labelName} AND lockd != 1
+        <if test="labelId != null and labelId != ''">
+            label_id=#{labelId} AND lockd != 1
         </if>
     </select>
 
@@ -35,10 +41,10 @@
     <!-- 新增题目 -->
     <insert id="addItem" parameterType="com.zjut.pojo.Title">
         INSERT INTO question
-        (content, answer, course_name, difficulty, user_name, `time`, picture, lockd, label_name, `type`)
+        (content, answer, course_id, difficulty, user_id, `time`, picture, lockd, label_id, `type`)
         VALUES
-        (#{content}, #{answer}, #{course_name}, #{difficulty}, #{user_name},
-        #{time}, #{picture}, #{lockd}, #{label_name}, #{type})
+        (#{content}, #{answer}, #{courseId}, #{difficulty}, #{userId},
+        #{time}, #{picture}, #{lockd}, #{labelId}, #{type})
     </insert>
 
     <!-- 修改题目内容 -->
@@ -48,13 +54,13 @@
         <if test="itemId != null">
             content = #{content},
             answer = #{answer},
-            course_name = #{course_name},
+            course_id = #{courseId},
             difficulty = #{difficulty},
-            user_name = #{user_name},
+            user_id = #{userId},
             `time` = #{time},
             picture = #{picture},
             lockd = #{lockd},
-            label_name = #{label_name},
+            label_id = #{labelId},
             `type` = #{type}
         </if>
         WHERE
@@ -90,5 +96,26 @@
         SELECT * FROM question
         where
         id=#{titleId} AND lockd != 1
+    </select>
+
+    <!--搜索标签内容-->
+    <select id="queryLabelById" resultType="String">
+        select content from label
+        WHERE
+        id = #{labelId}
+    </select>
+
+    <!--搜索课程名-->
+    <select id="queryCourseNameById" resultType="String">
+        select `name` from course
+        WHERE
+        id = #{courseId}
+    </select>
+
+    <!--搜索用户名-->
+    <select id="queryUserNameById" resultType="String">
+        select username from `user`
+        WHERE
+        id = #{userId}
     </select>
 </mapper>

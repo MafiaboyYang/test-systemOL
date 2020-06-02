@@ -3,7 +3,6 @@ package com.zjut.dao.title;
 import com.zjut.pojo.Title;
 import org.apache.ibatis.annotations.Param;
 
-import javax.validation.constraints.Null;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ public interface TitleDao {
      * 修改题目
      * @param item
      */
-    void update(Title item);
+    void updateItem(Title item);
 
     /**
      * 锁定题目
@@ -38,10 +37,10 @@ public interface TitleDao {
 
     /**
      * 根据标签查询题目
-     * @param labelName
+     * @param labelId
      * @return titleList
      */
-    List<Title> queryItemByLabel(@Param("labelName") String labelName);
+    List<Title> queryItemByLabel(@Param("labelId") int labelId);
 
     /**
      * 根据难度查询题目
@@ -61,4 +60,23 @@ public interface TitleDao {
      * @return title
      */
     Title queryTitleById(@Param("titleId") int titleId);
+
+    /**
+     * 按id查询标签
+     * @return labelContent
+     */
+    String queryLabelById(@Param("labelId") int labelId);
+
+    /**
+     * 按id查询课程
+     * @return CourseName
+     */
+    String queryCourseNameById(@Param("courseId") int courseId);
+
+
+    /**
+     * 按id查询用户名
+     * @return UserName
+     */
+    String queryUserNameById(@Param("userId") int userId);
 }

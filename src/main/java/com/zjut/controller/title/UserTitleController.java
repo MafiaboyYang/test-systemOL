@@ -46,16 +46,16 @@ public class UserTitleController extends BaseController {
 
         String content = pd.getString("content");
         String answer = pd.getString("answer");
-        String courseName = pd.getString("courseName");
+        int courseId = Integer.parseInt(pd.getString("courseId"));
         String difficulty = pd.getString("difficulty");
-        String userName = pd.getString("userName");
+        int userId = Integer.parseInt(pd.getString("userId"));
         String time = pd.getString("time");
         String picture = pd.getString("picture");
         int lockd = Integer.parseInt(pd.getString("lockd"));
-        String labelName = pd.getString("labelName");
+        int labelId = Integer.parseInt(pd.getString("labelId"));
         String type = pd.getString("type");
 
-        Title title = new Title(content, answer, courseName, difficulty, userName, time, picture, lockd, labelName, type);
+        Title title = new Title(content, answer, courseId, difficulty, userId, time, picture, lockd, labelId, type);
         String msg = titleService.addTitle(title);
 
         outputData.put("result_message", msg);
@@ -75,16 +75,16 @@ public class UserTitleController extends BaseController {
 
         String content = pd.getString("content");
         String answer = pd.getString("answer");
-        String courseName = pd.getString("courseName");
+        int courseId = Integer.parseInt(pd.getString("courseId"));
         String difficulty = pd.getString("difficulty");
-        String userName = pd.getString("userName");
+        int userId = Integer.parseInt(pd.getString("userId"));
         String time = pd.getString("time");
         String picture = pd.getString("picture");
         int lockd = Integer.parseInt(pd.getString("lockd"));
-        String labelName = pd.getString("labelName");
+        int labelId = Integer.parseInt(pd.getString("labelId"));
         String type = pd.getString("type");
 
-        Title title = new Title(content, answer, courseName, difficulty, userName, time, picture, lockd, labelName, type);
+        Title title = new Title(content, answer, courseId, difficulty, userId, time, picture, lockd, labelId, type);
         title.setItemId(Integer.parseInt(pd.getString("itemId")));
 
         String msg = titleService.updateTitle(title);
@@ -105,12 +105,13 @@ public class UserTitleController extends BaseController {
 
         Map<String, Object> outputData = new HashMap<String, Object>();
         PageData pageData = this.getPageData();
-        String labelName = pageData.getString("labelName");
+        int labelId = Integer.parseInt( pageData.getString("labelName"));
         String page = pageData.getString("page");            //当前页码
         String pageSize = pageData.getString("pageSize");    //每页查询条数
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
-        List<Title> titleList = titleService.queryItemByLabel(labelName);
+        List<Title> titleList = titleService.queryItemByLabel(labelId);
+        titleList = titleService.setListInfo(titleList);
         PageInfo pageInfo = new PageInfo(titleList);
 
         outputData.put("pageInfo", pageInfo);
@@ -138,6 +139,7 @@ public class UserTitleController extends BaseController {
 
         PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(pageSize));
         List<Title> titleList = titleService.queryItemByDifficulty(difficulty);
+        titleList = titleService.setListInfo(titleList);
         PageInfo pageInfo = new PageInfo(titleList);
 
         outputData.put("pageInfo", pageInfo);
@@ -186,6 +188,14 @@ public class UserTitleController extends BaseController {
         int titleId = Integer.parseInt(pd.getString("itemId"));
 
         Title title = titleService.queryTitleById(titleId);
+        int labelId, courseId, userId;
+        labelId = title.getLabelId();
+        courseId = title.getCourseId();
+        userId = title.getUserId();
+        title.setLabelContent(titleService.queryLabelById(labelId));
+        title.setCourseName(titleService.queryCourseNameById(courseId));
+        title.setUserName(titleService.queryUserNameById(userId));
+
         outputData.put("title", title);
         String data = JSON.toJSONString(outputData);
         System.out.println("data" + data);
